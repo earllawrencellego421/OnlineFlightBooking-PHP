@@ -198,7 +198,7 @@ h1, h2, h3, h4, h5 {
   font-weight: 700;
   cursor: pointer;
 }
-.el-stepper span { font-weight: 700; min-width: 18px; text-align: center; }
+.el-stepper span { font-weight: 700; min-width: 18px; text-align: center; color: var(--ink); }
 
 .el-search-submit {
   background: var(--teal);
