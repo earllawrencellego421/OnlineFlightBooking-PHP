@@ -1,0 +1,440 @@
+/* =========================================================
+   EARLINES — customer site design system
+   Same island-at-golden-hour language as the admin panel:
+   deep navy + ocean teal, sun-gold & coral accents, warm
+   paper surfaces. The hero leans into the "sky at dusk"
+   gradient; booking results & tickets borrow the boarding
+   -pass silhouette for a bit of aviation character.
+   ========================================================= */
+
+:root {
+  --ink: #0F2A3D;
+  --ink-soft: #17384F;
+  --teal: #0E7C86;
+  --teal-dark: #0B646C;
+  --teal-tint: #E4F3F2;
+  --gold: #E8A33D;
+  --gold-tint: #FBF0DC;
+  --coral: #E8583F;
+  --coral-tint: #FCE7E2;
+  --paper: #F5F4EF;
+  --card: #FFFFFF;
+  --line: #E7E2D3;
+  --slate: #52636D;
+  --slate-light: #8B98A0;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-card: 0 10px 28px rgba(15, 42, 61, 0.10);
+  --shadow-pop: 0 20px 50px rgba(15, 42, 61, 0.22);
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+a:hover { text-decoration: none; }
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin: 0;
+}
+
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+.el-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- Navbar ---------- */
+
+.el-navbar {
+  background: rgba(15, 42, 61, 0.92);
+  backdrop-filter: blur(6px);
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.el-navbar .navbar-brand { display: flex; align-items: center; gap: 10px; }
+.el-brand-mark {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--gold); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(45deg); font-size: 14px;
+}
+.el-brand-word {
+  font-family: var(--font-display); font-weight: 700; font-size: 20px; color: #fff;
+}
+.el-navbar h5 { margin: 0; font-family: var(--font-body); font-weight: 600; font-size: 14.5px; color: rgba(255,255,255,0.82); }
+.el-navbar .nav-link:hover h5 { color: var(--gold); }
+.astext {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.el-navbar .astext h5 { color: rgba(255,255,255,0.82); }
+.el-navbar .astext:hover h5 { color: var(--coral); }
+.el-navbar .btn-login {
+  background: var(--gold);
+  border: none;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.el-navbar .btn-login:hover { background: #f0b154; color: var(--ink); }
+.el-navbar .dropdown-menu { border-radius: var(--radius-sm); border: none; box-shadow: var(--shadow-pop); padding: 8px; }
+.el-navbar .dropdown-item { border-radius: var(--radius-sm); padding: 10px 14px; font-weight: 600; font-size: 14px; color: var(--ink); }
+.el-navbar .dropdown-item:hover { background: var(--teal-tint); color: var(--teal-dark); }
+
+/* ---------- Hero + search ---------- */
+
+.el-hero {
+  background:
+    radial-gradient(circle at 82% 15%, rgba(232,163,61,0.55) 0, rgba(232,163,61,0) 45%),
+    linear-gradient(200deg, #0B1E2C 0%, #17384F 60%, #123449 100%);
+  padding: 64px 0 90px 0;
+  color: #fff;
+}
+.el-hero-title {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.el-hero-sub {
+  text-align: center;
+  color: rgba(255,255,255,0.72);
+  font-size: 15px;
+  margin-bottom: 36px;
+}
+
+.el-search-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  max-width: 880px;
+  margin: 0 auto;
+  backdrop-filter: blur(4px);
+}
+
+.el-tab-row { display: flex; gap: 8px; margin-bottom: 22px; }
+.el-tab-btn {
+  border: 1px solid rgba(255,255,255,0.25);
+  background: transparent;
+  color: rgba(255,255,255,0.75);
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.el-tab-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+.el-search-panel { display: none; }
+.el-search-panel.active { display: block; }
+
+.el-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.el-field-grid.cols-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+
+.el-field label {
+  display: block;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 6px;
+}
+.el-field select,
+.el-field input {
+  width: 100%;
+  border: none;
+  background: rgba(255,255,255,0.94);
+  border-radius: var(--radius-sm);
+  padding: 12px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.el-field select:focus, .el-field input:focus { outline: 2px solid var(--gold); }
+
+.el-stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.94);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  width: fit-content;
+}
+.el-stepper button {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+.el-stepper span { font-weight: 700; min-width: 18px; text-align: center; }
+
+.el-search-submit {
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 34px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.el-search-submit:hover { background: var(--teal-dark); }
+
+/* ---------- Perk strip ---------- */
+
+.el-perks {
+  background: var(--card);
+  padding: 60px 0;
+}
+.el-perk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.el-perk { display: flex; gap: 16px; align-items: flex-start; }
+.el-perk img { width: 46px; height: 46px; flex-shrink: 0; }
+.el-perk-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+.el-perk p { color: var(--slate); font-size: 13.5px; margin: 0; }
+
+/* ---------- Page shells (non-hero pages) ---------- */
+
+.el-page {
+  min-height: 70vh;
+  background: var(--paper);
+  padding: 50px 0 70px 0;
+}
+.el-page-title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.el-page-sub { text-align: center; color: var(--slate); font-size: 14.5px; margin-bottom: 34px; }
+
+/* ---------- Cards / forms shared ---------- */
+
+.el-card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 36px;
+}
+
+.el-field-group { margin-bottom: 18px; text-align: left; }
+.el-field-group label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+.el-field-group input,
+.el-field-group select,
+.el-field-group textarea {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+.el-field-group input:focus,
+.el-field-group select:focus,
+.el-field-group textarea:focus { border-color: var(--teal); outline: none; background: #fff; }
+
+.el-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 28px;
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.el-btn-primary { background: var(--teal); color: #fff; }
+.el-btn-primary:hover { background: var(--teal-dark); color: #fff; }
+.el-btn-gold { background: var(--gold); color: var(--ink); }
+.el-btn-gold:hover { background: #f0b154; }
+.el-btn-ink { background: var(--ink); color: #fff; }
+.el-btn-ink:hover { background: var(--ink-soft); color: #fff; }
+.el-btn-outline { background: transparent; border: 1.5px solid var(--line); color: var(--ink); }
+.el-btn-outline:hover { border-color: var(--teal); color: var(--teal-dark); }
+.el-btn-danger { background: var(--coral-tint); color: var(--coral); }
+.el-btn-danger:hover { background: var(--coral); color: #fff; }
+.el-btn-block { width: 100%; }
+
+.el-link { color: var(--teal-dark); font-weight: 600; text-decoration: underline; }
+
+/* ---------- Result / flight cards ---------- */
+
+.el-flight-card {
+  background: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 0.9fr;
+  gap: 16px;
+  align-items: center;
+}
+.el-flight-airline { font-family: var(--font-display); font-weight: 700; font-size: 15px; }
+.el-flight-time { font-family: var(--font-mono); font-weight: 700; font-size: 14px; color: var(--ink); }
+.el-flight-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--slate-light); font-weight: 700; margin-bottom: 3px; }
+.el-flight-price { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--teal-dark); }
+
+.el-status-pill {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.el-status-scheduled { background: var(--teal-tint); color: var(--teal-dark); }
+.el-status-issue { background: var(--coral-tint); color: var(--coral); }
+.el-status-dep { background: var(--gold-tint); color: #9a6a15; }
+.el-status-arr { background: #E9F7E7; color: #2E7D32; }
+
+/* ---------- Flight status tracker (my flights) ---------- */
+
+.el-tracker {
+  background: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 26px 28px;
+  margin-bottom: 22px;
+}
+.el-track-line { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.el-track-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.el-track-dot.on { background: var(--teal); }
+.el-track-rule { flex: 1; height: 2px; background: var(--line); }
+.el-track-rule.on { background: var(--teal); }
+.el-track-plane { color: var(--teal); font-size: 18px; }
+.el-track-city { font-family: var(--font-display); font-weight: 700; font-size: 19px; }
+.el-track-meta { color: var(--slate-light); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.el-track-date { font-size: 15px; font-weight: 600; color: var(--ink); }
+.el-track-clock { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--ink); }
+
+/* ---------- Boarding pass (ticket / e-ticket) ---------- */
+
+.el-boardingpass {
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 26px;
+}
+.el-bp-main { flex: 3; background: var(--card); padding: 28px 30px; }
+.el-bp-stub {
+  flex: 1;
+  background: var(--ink);
+  color: #fff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+.el-bp-stub::before {
+  content: '';
+  position: absolute;
+  left: -12px; top: 50%;
+  width: 24px; height: 24px;
+  background: var(--paper);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.el-bp-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.el-bp-brand { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--teal-dark); }
+.el-bp-class { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--gold); background: var(--gold-tint); padding: 4px 12px; border-radius: 999px; }
+.el-bp-divider { border: none; border-top: 2px dashed var(--line); margin: 16px 0; }
+.el-bp-label { text-transform: uppercase; font-size: 11px; letter-spacing: 1px; color: var(--slate-light); font-weight: 700; margin-bottom: 3px; }
+.el-bp-value { font-family: var(--font-mono); font-weight: 700; font-size: 16px; color: var(--ink); text-transform: uppercase; }
+.el-bp-value-lg { font-family: var(--font-display); font-weight: 700; font-size: 26px; color: var(--ink); }
+.el-bp-row { display: flex; gap: 30px; margin-bottom: 16px; flex-wrap: wrap; }
+.el-bp-col { flex: 1; min-width: 110px; }
+
+/* ---------- Feedback star rating ---------- */
+
+.el-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+  font-size: 34px;
+}
+.el-rating input { display: none; }
+.el-rating label { color: var(--line); cursor: pointer; transition: color 0.15s ease; }
+.el-rating input:checked ~ label,
+.el-rating label:hover,
+.el-rating label:hover ~ label { color: var(--gold); }
+
+/* ---------- Footer ---------- */
+
+.el-footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.7);
+  padding: 40px 0 26px 0;
+  text-align: center;
+}
+.el-footer .el-brand-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.el-footer .el-brand-word { color: #fff; }
+.el-footer p { margin: 4px 0; font-size: 13px; }
+.el-footer .el-credit { color: rgba(255,255,255,0.45); font-size: 12px; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 992px) {
+  .el-field-grid, .el-field-grid.cols-5 { grid-template-columns: 1fr 1fr; }
+  .el-flight-card { grid-template-columns: 1fr 1fr; }
+  .el-perk-grid { grid-template-columns: 1fr; }
+  .el-boardingpass { flex-direction: column; }
+}
+@media (max-width: 576px) {
+  .el-field-grid, .el-field-grid.cols-5 { grid-template-columns: 1fr; }
+  .el-flight-card { grid-template-columns: 1fr; }
+  .el-hero-title { font-size: 30px; }
+}
