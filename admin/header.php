@@ -13,7 +13,7 @@ function earlines_nav_active($page, $current) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/earlines-admin.css?v=2">
+    <link rel="stylesheet" href="../assets/css/earlines-admin.css?v=3">
     <title>Earlines &mdash; Admin</title>
     <link rel="icon" href="../assets/images/brand.png" type="image/x-icon">
 </head>

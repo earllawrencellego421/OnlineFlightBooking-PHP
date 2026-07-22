@@ -188,6 +188,50 @@ h1, h2, h3, h4, h5 {
   align-items: center;
   justify-content: space-between;
   padding: 30px 40px 18px 40px;
+  position: relative;
+}
+.topbar::after {
+  content: '';
+  position: absolute;
+  left: 40px; right: 40px; bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--gold), var(--coral), var(--teal));
+  background-size: 300% 100%;
+  animation: gradientShift 7s linear infinite;
+  opacity: 0.55;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 0; }
+  100% { background-position: 300% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar::after { animation: none; }
+}
+
+.live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--teal-dark);
+  margin-left: 10px;
+}
+.live-dot::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(14,124,134,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(14,124,134,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-dot::before { animation: none; }
 }
 
 .eyebrow {

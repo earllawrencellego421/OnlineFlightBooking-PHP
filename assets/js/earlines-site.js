@@ -49,6 +49,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Destination slideshow
+  var slides = document.querySelectorAll('.el-slide');
+  var dots = document.querySelectorAll('.el-slide-dots button');
+  if (slides.length) {
+    var current = 0;
+    var timer;
+    function showSlide(i) {
+      slides.forEach(function (s) { s.classList.remove('active'); });
+      dots.forEach(function (d) { d.classList.remove('active'); });
+      slides[i].classList.add('active');
+      if (dots[i]) dots[i].classList.add('active');
+      current = i;
+    }
+    function nextSlide() { showSlide((current + 1) % slides.length); }
+    function startTimer() { timer = setInterval(nextSlide, 4000); }
+    function stopTimer() { clearInterval(timer); }
+    dots.forEach(function (d, i) {
+      d.addEventListener('click', function () { showSlide(i); stopTimer(); startTimer(); });
+    });
+    var slideshow = document.querySelector('.el-slideshow');
+    if (slideshow) {
+      slideshow.addEventListener('mouseenter', stopTimer);
+      slideshow.addEventListener('mouseleave', startTimer);
+    }
+    showSlide(0);
+    startTimer();
+  }
+
   // Confirm before destructive actions (cancel ticket)
   document.querySelectorAll('form.confirm-delete').forEach(function (f) {
     f.addEventListener('submit', function (e) {

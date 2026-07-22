@@ -65,7 +65,7 @@ function earlines_status_badge($status)
 <!-- TODAY'S FLIGHTS -->
 <div class="tab-panel active" id="tab-flight">
     <div class="board-card">
-        <p class="board-title"><i class="fa fa-clock-o"></i> Today's Flights</p>
+        <p class="board-title"><i class="fa fa-clock-o"></i> Today's Flights <span class="live-dot">Live</span></p>
         <table class="board">
             <thead>
                 <tr>

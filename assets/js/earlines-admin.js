@@ -30,6 +30,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Count-up animation for dashboard stat numbers
+  document.querySelectorAll('.stat-value').forEach(function (el) {
+    var raw = el.textContent.trim();
+    var match = raw.match(/^([^\d]*)([\d,]+)([^\d]*)$/);
+    if (!match) return;
+    var prefix = match[1];
+    var target = parseInt(match[2].replace(/,/g, ''), 10);
+    var suffix = match[3];
+    if (isNaN(target)) return;
+    var duration = 900;
+    var startTime = null;
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var value = Math.floor(progress * target);
+      el.textContent = prefix + value.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + target.toLocaleString() + suffix;
+    }
+    requestAnimationFrame(step);
+  });
+
   // Board row action panels (custom, replaces Bootstrap dropdown)
   document.querySelectorAll('.row-actions-toggle').forEach(function (btn) {
     btn.addEventListener('click', function (e) {

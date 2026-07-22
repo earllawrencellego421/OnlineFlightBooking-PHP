@@ -15,6 +15,7 @@ if (isset($_GET['error'])) {
 ?>
 
 <section class="el-hero">
+    <div class="el-wallpaper"><span></span><span></span><span></span></div>
     <div class="el-container">
         <h1 class="el-hero-title">Fly every island, one booking at a time.</h1>
         <p class="el-hero-sub">Search domestic routes across the Philippines &mdash; real fares, real seats.</p>
@@ -162,6 +163,51 @@ if (isset($_GET['error'])) {
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div class="el-slideshow">
+            <div class="el-slide active">
+                <span class="el-slide-icon"><i class="fa fa-building"></i></span>
+                <div class="el-slide-body">
+                    <div class="el-slide-city">Manila</div>
+                    <div class="el-slide-tag">The capital gateway &mdash; every route starts or ends here.</div>
+                </div>
+                <div class="el-slide-dots">
+                    <button class="active" type="button" aria-label="Manila"></button>
+                    <button type="button" aria-label="Cebu"></button>
+                    <button type="button" aria-label="Palawan"></button>
+                    <button type="button" aria-label="Boracay"></button>
+                    <button type="button" aria-label="Siargao"></button>
+                </div>
+            </div>
+            <div class="el-slide">
+                <span class="el-slide-icon"><i class="fa fa-ship"></i></span>
+                <div class="el-slide-body">
+                    <div class="el-slide-city">Cebu</div>
+                    <div class="el-slide-tag">Island-hop the Visayas from the Queen City of the South.</div>
+                </div>
+            </div>
+            <div class="el-slide">
+                <span class="el-slide-icon"><i class="fa fa-tree"></i></span>
+                <div class="el-slide-body">
+                    <div class="el-slide-city">Palawan</div>
+                    <div class="el-slide-tag">Lagoons, limestone cliffs, and the country's last frontier.</div>
+                </div>
+            </div>
+            <div class="el-slide">
+                <span class="el-slide-icon"><i class="fa fa-sun-o"></i></span>
+                <div class="el-slide-body">
+                    <div class="el-slide-city">Boracay</div>
+                    <div class="el-slide-tag">White sand, sunset sails, and a fare that won't sink your budget.</div>
+                </div>
+            </div>
+            <div class="el-slide">
+                <span class="el-slide-icon"><i class="fa fa-life-ring"></i></span>
+                <div class="el-slide-body">
+                    <div class="el-slide-city">Siargao</div>
+                    <div class="el-slide-tag">Chase the waves &mdash; the surfing capital of the Philippines.</div>
+                </div>
             </div>
         </div>
     </div>

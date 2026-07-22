@@ -425,7 +425,144 @@ h1, h2, h3, h4, h5 {
 .el-footer p { margin: 4px 0; font-size: 13px; }
 .el-footer .el-credit { color: rgba(255,255,255,0.45); font-size: 12px; }
 
-/* ---------- Responsive ---------- */
+/* ---------- Live wallpaper (hero background motion) ---------- */
+
+.el-hero { position: relative; overflow: hidden; }
+
+.el-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.el-wallpaper span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.el-wallpaper span:nth-child(1) {
+  width: 420px; height: 420px;
+  background: var(--gold);
+  top: -120px; left: 8%;
+  animation: driftA 22s ease-in-out infinite;
+}
+.el-wallpaper span:nth-child(2) {
+  width: 360px; height: 360px;
+  background: var(--teal);
+  bottom: -140px; right: 10%;
+  animation: driftB 26s ease-in-out infinite;
+}
+.el-wallpaper span:nth-child(3) {
+  width: 300px; height: 300px;
+  background: var(--coral);
+  top: 30%; right: 30%;
+  opacity: 0.32;
+  animation: driftC 30s ease-in-out infinite;
+}
+@keyframes driftA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.15); }
+}
+@keyframes driftB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.1); }
+}
+@keyframes driftC {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -50px) scale(0.9); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .el-wallpaper span { animation: none; }
+}
+
+.el-hero > .el-container { position: relative; z-index: 1; }
+
+/* ---------- Destination slideshow ---------- */
+
+.el-slideshow {
+  max-width: 880px;
+  margin: 30px auto 0 auto;
+  position: relative;
+  height: 118px;
+}
+
+.el-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 26px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  transform: translateX(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+.el-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.el-slide-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  background: rgba(232,163,61,0.16);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.el-slide-body { flex: 1; text-align: left; }
+.el-slide-city { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: #fff; }
+.el-slide-tag { color: rgba(255,255,255,0.68); font-size: 13.5px; margin-top: 2px; }
+
+.el-slide-dots {
+  display: flex;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.el-slide-dots button {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  padding: 0;
+}
+.el-slide-dots button.active { background: var(--gold); width: 20px; border-radius: 4px; }
+
+/* ---------- Live pulse indicator ---------- */
+
+.el-live-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--teal-dark);
+}
+.el-live-dot::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(14,124,134,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(14,124,134,0); }
+}
 
 @media (max-width: 992px) {
   .el-field-grid, .el-field-grid.cols-5 { grid-template-columns: 1fr 1fr; }
