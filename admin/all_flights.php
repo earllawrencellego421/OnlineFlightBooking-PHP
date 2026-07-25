@@ -40,6 +40,7 @@ if (isset($_POST['del_flight']) and isset($_SESSION['adminId'])) {
                 <th>Airline</th>
                 <th>Seats</th>
                 <th>Price</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>
@@ -64,9 +65,23 @@ if (isset($_POST['del_flight']) and isset($_SESSION['adminId'])) {
                     <td>' . htmlspecialchars($row['Seats']) . '</td>
                     <td>&#8369; ' . $row['Price'] . '</td>
                     <td>
+                        <form action="../includes/admin/update_status.php" method="POST" style="display:flex; gap:8px; align-items:center;">
+                            <input type="hidden" name="flight_id" value="' . $row['flight_id'] . '">
+                            <select name="status" style="padding:4px 8px; border-radius:4px; border:1px solid #ccc;">
+                                <option value="" ' . ($row['status'] == '' ? 'selected' : '') . '>Scheduled</option>
+                                <option value="dep" ' . ($row['status'] == 'dep' ? 'selected' : '') . '>Departed</option>
+                                <option value="arr" ' . ($row['status'] == 'arr' ? 'selected' : '') . '>Arrived</option>
+                                <option value="issue" ' . ($row['status'] == 'issue' ? 'selected' : '') . '>Delayed</option>
+                            </select>
+                            <button type="submit" name="update_status" class="icon-btn" title="Save Status" style="color:#0E7C86; background:none; border:none; cursor:pointer;">
+                                <i class="fa fa-save"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
                         <form action="all_flights.php" method="post" class="confirm-delete" data-confirm="Delete flight #' . $row['flight_id'] . '? This cannot be undone.">
                             <input name="flight_id" type="hidden" value="' . $row['flight_id'] . '">
-                            <button class="icon-btn" type="submit" name="del_flight" title="Delete flight">
+                            <button class="icon-btn" type="submit" name="del_flight" title="Delete flight" style="background:none; border:none; color:#E8583F; cursor:pointer;">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </form>
@@ -75,7 +90,7 @@ if (isset($_POST['del_flight']) and isset($_SESSION['adminId'])) {
                 ';
             }
             if (!$has_rows) {
-                echo '<tr><td colspan="9" class="board-empty">No flights scheduled yet. <a href="flight.php">Add your first flight</a>.</td></tr>';
+                echo '<tr><td colspan="10" class="board-empty">No flights scheduled yet. <a href="flight.php">Add your first flight</a>.</td></tr>';
             }
             ?>
         </tbody>

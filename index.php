@@ -239,4 +239,102 @@ if (isset($_GET['error'])) {
     </div>
 </section>
 
+<section class="el-explore">
+    <div class="el-container">
+        <div class="el-explore-head">
+            <h2 style="font-size:28px;">Explore the Philippines</h2>
+            <p>Eight islands, eight landmarks &mdash; swipe or click a city to jump straight there.</p>
+        </div>
+
+        <div class="el-dest-hero" id="destHero">
+            <div class="el-dest-slide active" style="background-image:url('assets/images/rizal%20park.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Rizal Park &amp; Intramuros</div>
+                    <div class="el-dest-city">Manila</div>
+                    <p>Walk the 16th-century walled city of Intramuros, then catch the sunset over Manila Bay at Rizal Park.</p>
+                    <button type="button" class="el-dest-cta" data-city="Manila">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/magellan%20cross.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Magellan's Cross</div>
+                    <div class="el-dest-city">Cebu City</div>
+                    <p>Planted in 1521, marking where Spanish colonization began &mdash; steps from the Basilica del Santo Ni&ntilde;o.</p>
+                    <button type="button" class="el-dest-cta" data-city="Cebu City">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/underground%20river%20puerto%20princesa.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Underground River</div>
+                    <div class="el-dest-city">Puerto Princesa</div>
+                    <p>Paddle a UNESCO World Heritage subterranean river carved through dramatic limestone cliffs.</p>
+                    <button type="button" class="el-dest-cta" data-city="Puerto Princesa">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/session%20road%20baguio.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Session Road</div>
+                    <div class="el-dest-city">Baguio City</div>
+                    <p>The Summer Capital's pine-covered streets, cool mountain air, and Burnham Park lake.</p>
+                    <button type="button" class="el-dest-cta" data-city="Baguio City">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/philippine%20eagle%20center%20davao%20city.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Philippine Eagle Center</div>
+                    <div class="el-dest-city">Davao City</div>
+                    <p>Come face to face with the critically endangered Philippine Eagle, the nation's proud bird.</p>
+                    <button type="button" class="el-dest-cta" data-city="Davao City">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/mayon%20volcano%20legazpi%20city.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Mayon Volcano</div>
+                    <div class="el-dest-city">Legazpi City</div>
+                    <p>The world's most perfectly cone-shaped volcano, rising 2,462 meters over Albay province.</p>
+                    <button type="button" class="el-dest-cta" data-city="Legazpi City">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/white%20beach%20boracay%20caticlan.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">White Beach, Boracay</div>
+                    <div class="el-dest-city">Caticlan</div>
+                    <p>Gateway to the Philippines' most famous powder-white sand and unforgettable sunset sails.</p>
+                    <button type="button" class="el-dest-cta" data-city="Caticlan">Search flights &rarr;</button>
+                </div>
+            </div>
+            <div class="el-dest-slide" style="background-image:url('assets/images/rizal%20boulevard%20dumaguete%20city.jpg');">
+                <div class="el-dest-slide-scrim"></div>
+                <div class="el-dest-slide-content">
+                    <div class="el-dest-landmark">Rizal Boulevard</div>
+                    <div class="el-dest-city">Dumaguete City</div>
+                    <p>The City of Gentle People's seaside promenade &mdash; minutes from Apo Island's sea turtles.</p>
+                    <button type="button" class="el-dest-cta" data-city="Dumaguete City">Search flights &rarr;</button>
+                </div>
+            </div>
+
+            <button type="button" class="el-dest-nav-arrow prev" aria-label="Previous destination"><i class="fa fa-chevron-left"></i></button>
+            <button type="button" class="el-dest-nav-arrow next" aria-label="Next destination"><i class="fa fa-chevron-right"></i></button>
+        </div>
+
+        <div class="el-dest-strip">
+            <button type="button" class="el-dest-nav-btn active">Manila</button>
+            <button type="button" class="el-dest-nav-btn">Cebu City</button>
+            <button type="button" class="el-dest-nav-btn">Puerto Princesa</button>
+            <button type="button" class="el-dest-nav-btn">Baguio City</button>
+            <button type="button" class="el-dest-nav-btn">Davao City</button>
+            <button type="button" class="el-dest-nav-btn">Legazpi City</button>
+            <button type="button" class="el-dest-nav-btn">Caticlan</button>
+            <button type="button" class="el-dest-nav-btn">Dumaguete City</button>
+        </div>
+    </div>
+</section>
+
 <?php subview('footer.php'); ?>

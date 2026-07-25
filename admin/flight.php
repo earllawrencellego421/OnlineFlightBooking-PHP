@@ -81,8 +81,8 @@ if (isset($_GET['error'])) {
             </div>
         </div>
 
-        <p class="section-label"><i class="fa fa-tags"></i> Fare &amp; Carrier</p>
-        <div class="field-row triple">
+        <p class="section-label"><i class="fa fa-tags"></i> Fare, Carrier & Schedule</p>
+        <div class="field-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px;">
             <div class="field-group">
                 <label for="dura">Duration (hrs)</label>
                 <input type="text" name="dura" id="dura" required>
@@ -107,6 +107,10 @@ if (isset($_GET['error'])) {
                     ?>
                 </select>
             </div>
+            <div class="field-group">
+                <label for="recur_days">Repeat (Days)</label>
+                <input type="number" name="recur_days" id="recur_days" value="1" min="1" max="60" required>
+            </div>
         </div>
 
         <button name="flight_but" type="submit" class="btn-primary mt-3">
@@ -116,5 +120,48 @@ if (isset($_GET['error'])) {
 </div>
 
 <?php } ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sourceDate = document.getElementById('source_date');
+    const destDate = document.getElementById('dest_date');
+    const depCity = document.getElementById('dep_city');
+    const arrCity = document.getElementById('arr_city');
+
+    // 1. Disable past dates so admins cannot schedule flights in the past
+    const today = new Date().toISOString().split('T')[0];
+    if (sourceDate) sourceDate.setAttribute('min', today);
+    if (destDate) destDate.setAttribute('min', today);
+
+    // 2. Ensure arrival date is not before departure date
+    if (sourceDate && destDate) {
+        sourceDate.addEventListener('change', function() {
+            destDate.setAttribute('min', this.value);
+            // Clear arrival date if it's now invalid
+            if(destDate.value && destDate.value < this.value) {
+                destDate.value = '';
+            }
+        });
+    }
+
+    // 3. Prevent same city selection for Departure and Arrival
+    function preventDuplicateCity(selectA, selectB) {
+        if (selectA && selectB) {
+            selectA.addEventListener('change', function() {
+                const selected = this.value;
+                Array.from(selectB.options).forEach(opt => {
+                    // Disable the option in the other dropdown
+                    opt.disabled = (opt.value === selected && opt.value !== "");
+                });
+                // Reset the other dropdown if it currently matches
+                if (selectB.value === selected) selectB.value = "";
+            });
+        }
+    }
+    
+    preventDuplicateCity(depCity, arrCity);
+    preventDuplicateCity(arrCity, depCity);
+});
+</script>
 
 <?php include_once 'footer.php'; ?>

@@ -1,0 +1,114 @@
+OnlineFlightBooking-PHP/
+├── admin/
+│   ├── airlcnt.php
+│   ├── all_flights.php
+│   ├── amtcnt.php
+│   ├── flight.php
+│   ├── flightscnt.php
+│   ├── footer.php
+│   ├── header.php
+│   ├── index.php
+│   ├── list_airlines.php
+│   ├── login.php
+│   ├── pass_list.php
+│   ├── psngrcnt.php
+│   └── review.php
+│
+├── assets/
+│   ├── css/
+│   │   ├── dist/
+│   │   │   └── form.css
+│   │   ├── admin.css
+│   │   ├── earlines-admin.css
+│   │   ├── earlines-site.css
+│   │   ├── form.css
+│   │   ├── form.css.map
+│   │   ├── form.scss
+│   │   ├── login.css
+│   │   ├── pass.css
+│   │   ├── Product Sans Bold.ttf
+│   │   ├── review.css
+│   │   ├── user_login.css
+│   │   └── user.css
+│   ├── images/
+│   │   ├── airtic.png
+│   │   ├── beach.svg
+│   │   ├── magellancross.jpg
+│   │   ├── mayon volcano le...
+│   │   ├── philippine eagle c...
+│   │   ├── rizal boulevard du...
+│   │   ├── rizal park.jpg
+│   │   ├── session road bag...
+│   │   ├── suitcase.svg
+│   │   ├── underground rive...
+│   │   ├── wallet.svg
+│   │   └── white beach bora...
+│   └── js/
+│       ├── earlines-admin.js
+│       ├── earlines-site.js
+│       └── easyResponsiveTabs.js
+│
+├── DATABASE FILE/
+│   └── ofbsphp.sql
+│
+├── helpers/
+│   ├── helper.php
+│   └── init_conn_db.php
+│
+├── includes/
+│   ├── admin/
+│   │   ├── admin.inc.php
+│   │   ├── airline.inc.php
+│   │   ├── flight.inc.php
+│   │   ├── login.inc.php
+│   │   └── register.inc.php
+│   ├── feedback.inc.php
+│   ├── login.inc.php
+│   ├── logout.inc.php
+│   ├── pass_detail.inc.php
+│   ├── payment.inc.php
+│   ├── register.inc.php
+│   ├── reset-password.inc.php
+│   └── reset-request.inc.php
+│
+├── sub-views/
+│   ├── footer.php
+│   └── header.php
+│
+├── vendor/
+│   ├── composer/
+│   │   ├── autoload_classmap.php
+│   │   ├── autoload_namespaces....
+│   │   ├── autoload_psr4.php
+│   │   ├── autoload_real.php
+│   │   ├── autoload_static.php
+│   │   ├── ClassLoader.php
+│   │   ├── installed.json
+│   │   └── LICENSE
+│   ├── phpmailer\phpmailer/
+│   │   ├── src/
+│   │   │   ├── Exception.php
+│   │   │   ├── OAuth.php
+│   │   │   ├── PHPMailer.php
+│   │   │   ├── POP3.php
+│   │   │   └── SMTP.php
+│   │   ├── composer.json
+│   │   ├── get_oauth_token.php
+│   │   └── LICENSE
+│   └── autoload.php
+│
+├── 01 LOGIN DETAILS & PRO...
+├── about.php
+├── book_flight.php
+├── create-new-pwd.php
+├── e_ticket.php
+├── feedback.php
+├── index.php
+├── login.php
+├── my_flights.php
+├── pass_form.php
+├── pay_success.php
+├── payment.php
+├── register.php
+├── reset-pwd.php
+└── ticket.php

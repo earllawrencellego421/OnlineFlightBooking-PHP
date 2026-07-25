@@ -27,17 +27,20 @@ require 'helpers/init_conn_db.php';
             }
             ?>
             <div class="el-page-title">Flights &mdash; <?php echo htmlspecialchars($dep_city); ?> to <?php echo htmlspecialchars($arr_city); ?></div>
-            <p class="el-page-sub"><?php echo htmlspecialchars($dep_date); ?> &middot; <?php echo (int) $passengers; ?> passenger(s) &middot; <?php echo $f_class === 'B' ? 'Business' : 'Economy'; ?></p>
+            <p class="el-page-sub">Showing upcoming flights on or after <?php echo htmlspecialchars($dep_date); ?> &middot; <?php echo (int) $passengers; ?> passenger(s) &middot; <?php echo $f_class === 'B' ? 'Business' : 'Economy'; ?></p>
 
             <?php
+            // CHANGED: DATE(departure) >= ? instead of DATE(departure) = ?
+            // This shows flights on the selected date OR ANY future date for this route.
             $sql = 'SELECT * FROM Flight WHERE source=? AND Destination =? AND
-                DATE(departure)=? ORDER BY Price';
+                DATE(departure) >= ? ORDER BY departure ASC, Price ASC';
             $stmt = mysqli_stmt_init($conn);
             mysqli_stmt_prepare($stmt, $sql);
             mysqli_stmt_bind_param($stmt, 'sss', $dep_city, $arr_city, $dep_date);
             mysqli_stmt_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
             $has_rows = false;
+            
             while ($row = mysqli_fetch_assoc($result)) {
                 $has_rows = true;
                 $price = (int) $row['Price'] * (int) $passengers;
@@ -83,7 +86,6 @@ require 'helpers/init_conn_db.php';
                         <div class="el-flight-price">&#8369;' . $price . '</div>
                 ';
                 
-                // FIX: Restructured logic block for buttons/links
                 if (isset($_SESSION['userId'])) {
                     // User IS logged in
                     if ($row['status'] === '') {
@@ -116,7 +118,7 @@ require 'helpers/init_conn_db.php';
                 ';
             }
             if (!$has_rows) {
-                echo '<div class="el-card text-center"><p class="mb-0" style="color:var(--slate);">No flights found for this route on ' . htmlspecialchars($dep_date) . '. Try another date.</p></div>';
+                echo '<div class="el-card text-center"><p class="mb-0" style="color:var(--slate);">No upcoming flights found for this route. Please try a different destination.</p></div>';
             }
             ?>
         <?php } ?>

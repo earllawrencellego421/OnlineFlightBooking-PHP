@@ -77,6 +77,36 @@ document.addEventListener('DOMContentLoaded', function () {
     startTimer();
   }
 
+  // Destination cards: reveal on scroll
+  var destCards = document.querySelectorAll('.el-dest-card');
+  if (destCards.length && 'IntersectionObserver' in window) {
+    var destObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          destObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    destCards.forEach(function (card) { destObserver.observe(card); });
+  } else {
+    destCards.forEach(function (card) { card.classList.add('in-view'); });
+  }
+
+  // Destination "search flights" buttons prefill the hero search
+  document.querySelectorAll('.el-dest-cta').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var city = btn.getAttribute('data-city');
+      var sel = document.getElementById('arr_city_r');
+      if (sel) {
+        for (var i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === city) { sel.selectedIndex = i; break; }
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
   // Confirm before destructive actions (cancel ticket)
   document.querySelectorAll('form.confirm-delete').forEach(function (f) {
     f.addEventListener('submit', function (e) {
