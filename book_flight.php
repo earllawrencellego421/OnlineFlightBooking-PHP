@@ -13,6 +13,7 @@ require 'helpers/init_conn_db.php';
             $type = $_POST['type'];
             $f_class = $_POST['f_class'];
             $passengers = $_POST['passengers'];
+            
             if ($dep_city === $arr_city) {
                 header('Location: index.php?error=sameval');
                 exit();
@@ -27,22 +28,10 @@ require 'helpers/init_conn_db.php';
             }
             ?>
             <div class="el-page-title">Flights &mdash; <?php echo htmlspecialchars($dep_city); ?> to <?php echo htmlspecialchars($arr_city); ?></div>
-            <p class="el-page-sub">Showing upcoming flights on or after <?php echo htmlspecialchars($dep_date); ?> &middot; <?php echo (int) $passengers; ?> passenger(s) &middot; <?php echo $f_class === 'B' ? 'Business' : 'Economy'; ?></p>
+            <p class="el-page-sub">Showing flights for <?php echo htmlspecialchars($dep_date); ?> &middot; <?php echo (int) $passengers; ?> passenger(s) &middot; <?php echo $f_class === 'B' ? 'Business' : 'Economy'; ?></p>
 
             <?php
-            // CHANGED: DATE(departure) >= ? instead of DATE(departure) = ?
-            // This shows flights on the selected date OR ANY future date for this route.
-            $sql = 'SELECT * FROM Flight WHERE source=? AND Destination =? AND
-                DATE(departure) >= ? ORDER BY departure ASC, Price ASC';
-            $stmt = mysqli_stmt_init($conn);
-            mysqli_stmt_prepare($stmt, $sql);
-            mysqli_stmt_bind_param($stmt, 'sss', $dep_city, $arr_city, $dep_date);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            $has_rows = false;
-            
-            while ($row = mysqli_fetch_assoc($result)) {
-                $has_rows = true;
+            function displayFlightCard($row, $passengers, $type, $f_class, $ret_date) {
                 $price = (int) $row['Price'] * (int) $passengers;
                 if ($type === 'round') {
                     $price = $price * 2;
@@ -50,6 +39,7 @@ require 'helpers/init_conn_db.php';
                 if ($f_class == 'B') {
                     $price += 0.5 * $price;
                 }
+                
                 if ($row['status'] === '') {
                     $status = 'Not yet Departed';
                     $pill = 'el-status-scheduled';
@@ -63,6 +53,7 @@ require 'helpers/init_conn_db.php';
                     $status = 'Arrived';
                     $pill = 'el-status-arr';
                 }
+                
                 echo '
                 <div class="el-flight-card">
                     <div>
@@ -87,9 +78,7 @@ require 'helpers/init_conn_db.php';
                 ';
                 
                 if (isset($_SESSION['userId'])) {
-                    // User IS logged in
                     if ($row['status'] === '') {
-                        // Flight is open for booking
                         echo '
                             <form action="pass_form.php" method="post" class="mt-2">
                                 <input name="flight_id" type="hidden" value="' . $row['flight_id'] . '">
@@ -104,11 +93,9 @@ require 'helpers/init_conn_db.php';
                             </form>
                         ';
                     } else {
-                        // Flight is departed, arrived, or has an issue
                         echo '<p class="mt-2 mb-0 text-muted small">Not available</p>';
                     }
                 } else {
-                    // User is NOT logged in
                     echo '<a href="login.php" class="el-link">Login to continue</a>';
                 }
                 
@@ -117,8 +104,76 @@ require 'helpers/init_conn_db.php';
                 </div>
                 ';
             }
-            if (!$has_rows) {
-                echo '<div class="el-card text-center"><p class="mb-0" style="color:var(--slate);">No upcoming flights found for this route. Please try a different destination.</p></div>';
+
+            // Step 1: Search for existing flights on or after the requested date
+            $sql = 'SELECT * FROM Flight WHERE source=? AND Destination =? AND DATE(departure) >= ? ORDER BY departure ASC, Price ASC';
+            $stmt = mysqli_stmt_init($conn);
+            mysqli_stmt_prepare($stmt, $sql);
+            mysqli_stmt_bind_param($stmt, 'sss', $dep_city, $arr_city, $dep_date);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            if (mysqli_num_rows($result) > 0) {
+                // Display normal scheduled flights
+                while ($row = mysqli_fetch_assoc($result)) {
+                    displayFlightCard($row, $passengers, $type, $f_class, $ret_date);
+                }
+            } else {
+                // Step 2: Auto-Generate Mode - Create a dynamic realistic flight
+                $default_admin = 1; 
+                
+                // Fetch a random airline from the database
+                $air_sql = "SELECT * FROM Airline ORDER BY RAND() LIMIT 1";
+                $air_stmt = mysqli_stmt_init($conn);
+                mysqli_stmt_prepare($air_stmt, $air_sql);
+                mysqli_stmt_execute($air_stmt);
+                $air_result = mysqli_stmt_get_result($air_stmt);
+                
+                if ($air_row = mysqli_fetch_assoc($air_result)) {
+                    $default_airline = $air_row['name'];
+                    $default_seats = $air_row['seats'];
+                } else {
+                    $default_airline = 'Earlines'; 
+                    $default_seats = '150';
+                }
+                
+                // Generate a random departure time (between 05:00 and 20:00)
+                $rand_hour = str_pad(rand(5, 20), 2, "0", STR_PAD_LEFT);
+                $mins = ['00', '15', '30', '45'];
+                $rand_min = $mins[array_rand($mins)];
+                $dep_datetime = $dep_date . ' ' . $rand_hour . ':' . $rand_min . ':00';
+                
+                // Generate a realistic domestic duration (1 to 2 hours, plus random minutes)
+                $duration_hours = rand(1, 2);
+                $duration_mins = rand(0, 45);
+                $default_duration = (string) $duration_hours;
+                
+                $arr_time_obj = new DateTime($dep_datetime);
+                $arr_time_obj->add(new DateInterval('PT' . $duration_hours . 'H' . $duration_mins . 'M'));
+                $arr_datetime = $arr_time_obj->format('Y-m-d H:i:s');
+                
+                // Randomize a realistic base price
+                $default_price = rand(1899, 4599); 
+                
+                $insert_sql = "INSERT INTO Flight(admin_id, arrivale, departure, Destination, source, airline, Seats, duration, Price, status, issue) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', '')";
+                $insert_stmt = mysqli_stmt_init($conn);
+                mysqli_stmt_prepare($insert_stmt, $insert_sql);
+                mysqli_stmt_bind_param($insert_stmt, 'isssssssi', $default_admin, $arr_datetime, $dep_datetime, $arr_city, $dep_city, $default_airline, $default_seats, $default_duration, $default_price);
+                mysqli_stmt_execute($insert_stmt);
+                
+                $new_flight_id = mysqli_insert_id($conn);
+                
+                $fetch_sql = "SELECT * FROM Flight WHERE flight_id = ?";
+                $fetch_stmt = mysqli_stmt_init($conn);
+                mysqli_stmt_prepare($fetch_stmt, $fetch_sql);
+                mysqli_stmt_bind_param($fetch_stmt, 'i', $new_flight_id);
+                mysqli_stmt_execute($fetch_stmt);
+                $new_result = mysqli_stmt_get_result($fetch_stmt);
+                
+                if ($new_row = mysqli_fetch_assoc($new_result)) {
+                    echo '<div class="el-card text-center mb-4" style="background-color: var(--teal-tint); border: 1px solid var(--teal); padding: 12px;"><p class="mb-0" style="color:var(--teal-dark); font-weight:700;">A new direct route has been found for your travel dates!</p></div>';
+                    displayFlightCard($new_row, $passengers, $type, $f_class, $ret_date);
+                }
             }
             ?>
         <?php } ?>

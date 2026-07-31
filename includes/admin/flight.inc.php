@@ -12,8 +12,11 @@ if(isset($_POST['flight_but']) and isset($_SESSION['adminId'])) {
     $air_id = $_POST['airline_name'];
     $dura = $_POST['dura'];
     
-    // Grab the recurrence value, default to 1 if missing
+    // Grab the recurrence value, default to 1 if missing.
+    // Clamp server-side too (1-60) — the form's min/max only guards
+    // against accidental input, not a POST sent directly to this file.
     $recur_days = isset($_POST['recur_days']) ? (int)$_POST['recur_days'] : 1;
+    $recur_days = max(1, min(60, $recur_days));
 
     if($dep_city===$arr_city || $arr_city==='To' || $arr_city==='From') {
       header('Location: ../../admin/flight.php?error=same');

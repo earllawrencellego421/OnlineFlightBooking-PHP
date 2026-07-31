@@ -283,7 +283,7 @@ if (isset($_GET['error'])) {
                     <button type="button" class="el-dest-cta" data-city="Baguio City">Search flights &rarr;</button>
                 </div>
             </div>
-            <div class="el-dest-slide" style="background-image:url('assets/images/philippine%20eagle%20center%20davao%20city.jpg');">
+            <div class="el-dest-slide" style="background-image:url('assets/images/philippine%20eagle%20center%20davao%20city.webp');">
                 <div class="el-dest-slide-scrim"></div>
                 <div class="el-dest-slide-content">
                     <div class="el-dest-landmark">Philippine Eagle Center</div>
@@ -336,5 +336,104 @@ if (isset($_GET['error'])) {
         </div>
     </div>
 </section>
+
+<!-- Added JavaScript to handle all interactivty on the index page -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Search Form Tabs (Round Trip vs One Way)
+    const tabBtns = document.querySelectorAll('.el-tab-btn');
+    const searchPanels = document.querySelectorAll('.el-search-panel');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            searchPanels.forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            const targetId = btn.getAttribute('data-el-tab-target');
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+
+    // 2. Explore the Philippines - Destination Slideshow
+    const destSlides = document.querySelectorAll('.el-dest-slide');
+    const destNavBtns = document.querySelectorAll('.el-dest-nav-btn');
+    const prevArrow = document.querySelector('.el-dest-nav-arrow.prev');
+    const nextArrow = document.querySelector('.el-dest-nav-arrow.next');
+    let currentDestIndex = 0;
+
+    function showDestSlide(index) {
+        destSlides.forEach(s => s.classList.remove('active'));
+        destNavBtns.forEach(b => b.classList.remove('active'));
+        destSlides[index].classList.add('active');
+        destNavBtns[index].classList.add('active');
+        currentDestIndex = index;
+    }
+
+    // Click events for the bottom city names strip
+    destNavBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => showDestSlide(index));
+    });
+
+    // Click events for left and right arrows
+    if (prevArrow && nextArrow) {
+        prevArrow.addEventListener('click', () => {
+            let index = currentDestIndex - 1;
+            if (index < 0) index = destSlides.length - 1;
+            showDestSlide(index);
+        });
+        nextArrow.addEventListener('click', () => {
+            let index = currentDestIndex + 1;
+            if (index >= destSlides.length) index = 0;
+            showDestSlide(index);
+        });
+    }
+
+    // 3. Search Flights CTA button sync
+    // When you click "Search Flights" on a destination, it auto-fills the main form and scrolls up
+    const ctaBtns = document.querySelectorAll('.el-dest-cta');
+    ctaBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const city = e.target.getAttribute('data-city');
+            const arrRound = document.getElementById('arr_city_r');
+            const arrOne = document.getElementById('arr_city_o');
+            
+            if (arrRound) arrRound.value = city;
+            if (arrOne) arrOne.value = city;
+            
+            // Scroll smoothly to the search form
+            window.scrollTo({
+                top: document.querySelector('.el-search-card').offsetTop - 20,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // 4. Passenger Stepper Logic (Plus / Minus buttons)
+    const steppers = document.querySelectorAll('.el-stepper');
+    steppers.forEach(stepper => {
+        const minusBtn = stepper.querySelector('.el-stepper-minus');
+        const plusBtn = stepper.querySelector('.el-stepper-plus');
+        const valueDisplay = stepper.querySelector('.el-stepper-value');
+        const inputHidden = stepper.querySelector('input[type="hidden"]');
+        
+        minusBtn.addEventListener('click', () => {
+            let val = parseInt(inputHidden.value);
+            if (val > 1) {
+                val--;
+                valueDisplay.textContent = val;
+                inputHidden.value = val;
+            }
+        });
+        
+        plusBtn.addEventListener('click', () => {
+            let val = parseInt(inputHidden.value);
+            if (val < 9) { // Prevent booking too many seats at once
+                val++;
+                valueDisplay.textContent = val;
+                inputHidden.value = val;
+            }
+        });
+    });
+});
+</script>
 
 <?php subview('footer.php'); ?>
