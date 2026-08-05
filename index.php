@@ -106,7 +106,7 @@ if (isset($_GET['error'])) {
                         <div class="el-field">
                             <label for="dep_city_o">From</label>
                             <select name="dep_city" id="dep_city_o" required>
-                                <option selected disabled>Departure</option>
+                                <option value="0" selected disabled>Departure</option>
                                 <?php
                                 $sql = 'SELECT * FROM Cities';
                                 $stmt = mysqli_stmt_init($conn);
@@ -122,7 +122,7 @@ if (isset($_GET['error'])) {
                         <div class="el-field">
                             <label for="arr_city_o">To</label>
                             <select name="arr_city" id="arr_city_o" required>
-                                <option selected disabled>Arrival</option>
+                                <option value="0" selected disabled>Arrival</option>
                                 <?php
                                 $sql = 'SELECT * FROM Cities';
                                 $stmt = mysqli_stmt_init($conn);
@@ -388,7 +388,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 3. Search Flights CTA button sync
-    // When you click "Search Flights" on a destination, it auto-fills the main form and scrolls up
     const ctaBtns = document.querySelectorAll('.el-dest-cta');
     ctaBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
@@ -426,13 +425,55 @@ document.addEventListener('DOMContentLoaded', function() {
         
         plusBtn.addEventListener('click', () => {
             let val = parseInt(inputHidden.value);
-            if (val < 9) { // Prevent booking too many seats at once
+            if (val < 9) { 
                 val++;
                 valueDisplay.textContent = val;
                 inputHidden.value = val;
             }
         });
     });
+
+    // 5. SMART DATE VALIDATION
+    // Prevent users from picking past dates
+    const today = new Date().toISOString().split('T')[0];
+    const depDateR = document.getElementById('dep_date_r');
+    const retDateR = document.getElementById('ret_date_r');
+    const depDateO = document.getElementById('dep_date_o');
+
+    if (depDateR) depDateR.setAttribute('min', today);
+    if (retDateR) retDateR.setAttribute('min', today);
+    if (depDateO) depDateO.setAttribute('min', today);
+
+    // Ensure Return Date cannot be before Departure Date
+    if (depDateR && retDateR) {
+        depDateR.addEventListener('change', function() {
+            retDateR.setAttribute('min', this.value);
+            if (retDateR.value && retDateR.value < this.value) {
+                retDateR.value = ''; // Clears invalid return date automatically
+            }
+        });
+    }
+
+    // 6. SMART CITY SELECTION
+    // Prevent selecting the exact same city for Departure and Arrival
+    function preventDuplicateCity(selectA, selectB) {
+        if (selectA && selectB) {
+            selectA.addEventListener('change', function() {
+                const selected = this.value;
+                Array.from(selectB.options).forEach(opt => {
+                    // Disable the matching option in the other dropdown
+                    opt.disabled = (opt.value === selected && opt.value !== "0");
+                });
+                // Reset the other dropdown if it currently matches the new selection
+                if (selectB.value === selected) selectB.value = "0";
+            });
+        }
+    }
+
+    preventDuplicateCity(document.getElementById('dep_city_r'), document.getElementById('arr_city_r'));
+    preventDuplicateCity(document.getElementById('arr_city_r'), document.getElementById('dep_city_r'));
+    preventDuplicateCity(document.getElementById('dep_city_o'), document.getElementById('arr_city_o'));
+    preventDuplicateCity(document.getElementById('arr_city_o'), document.getElementById('dep_city_o'));
 });
 </script>
 

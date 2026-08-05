@@ -6,24 +6,27 @@ require 'helpers/init_conn_db.php';
 <div class="el-page">
     <div class="el-container">
         <?php if (isset($_POST['search_but'])) {
-            $dep_date = $_POST['dep_date'];
-            $ret_date = $_POST['ret_date'];
-            $dep_city = $_POST['dep_city'];
-            $arr_city = $_POST['arr_city'];
-            $type = $_POST['type'];
-            $f_class = $_POST['f_class'];
-            $passengers = $_POST['passengers'];
+            // FIXED: We now check if the values actually exist before assigning them.
+            // This prevents the "Undefined array key" error if the user submits without selecting a city.
+            $dep_date = isset($_POST['dep_date']) ? $_POST['dep_date'] : '';
+            $ret_date = isset($_POST['ret_date']) ? $_POST['ret_date'] : '';
+            $dep_city = isset($_POST['dep_city']) ? $_POST['dep_city'] : '0';
+            $arr_city = isset($_POST['arr_city']) ? $_POST['arr_city'] : '0';
+            $type = isset($_POST['type']) ? $_POST['type'] : 'round';
+            $f_class = isset($_POST['f_class']) ? $_POST['f_class'] : 'E';
+            $passengers = isset($_POST['passengers']) ? $_POST['passengers'] : 1;
             
-            if ($dep_city === $arr_city) {
-                header('Location: index.php?error=sameval');
-                exit();
-            }
+            // Redirect back with an error alert if the data is missing
             if ($dep_city === '0') {
                 header('Location: index.php?error=seldep');
                 exit();
             }
             if ($arr_city === '0') {
                 header('Location: index.php?error=selarr');
+                exit();
+            }
+            if ($dep_city === $arr_city) {
+                header('Location: index.php?error=sameval');
                 exit();
             }
             ?>
